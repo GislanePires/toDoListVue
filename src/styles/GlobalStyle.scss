@@ -1,0 +1,24 @@
+$primary-color: rgb(255, 243, 243);
+$secondary-color: rgba(255, 233, 232, 1);
+$background-color: rgb(249, 245, 243);;
+$text-color:rgba(18, 18, 20, 1);
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Playfair Display", serif;
+    background-color: $background-color;
+    overflow: hidden;
+}

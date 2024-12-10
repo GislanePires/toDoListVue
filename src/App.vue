@@ -1,5 +1,9 @@
 <script setup>
-import { watch, onMounted, ref } from "vue";
+import { watch, onMounted, ref, computed } from "vue";
+// import "./styles/GlobalStyle.scss";
+// import "../src/styles/GlobalStyle.scss";
+
+import doguito from "../src/assets/doguito-sentado2.png";
 
 const tarefas = ref([
   { texto: "Estudar Vue.js", concluida: false, data: "2024-12-10" },
@@ -15,12 +19,23 @@ function RemoverTarefa(index) {
 const novaTarefa = ref("");
 const novaData = ref("");
 
+// Computed() pra filtro de to dos com base no input
+const tarefasFiltradas = computed(() => {
+  const textoFiltro = novaTarefa.value.toLowerCase().trim();
+  if (textoFiltro === "") {
+    return tarefas.value; //quando o campo estiver vazio, retorna todos os to dos
+  }
+  return tarefas.value.filter((tarefa) =>
+    tarefa.texto.toLowerCase().includes(textoFiltro)
+  );
+});
+
 function adicionarTarefa() {
   if (novaTarefa.value.trim() !== "" && novaData.value !== "") {
-    tarefas.value.push({ 
-      texto: novaTarefa.value.trim(), 
+    tarefas.value.push({
+      texto: novaTarefa.value.trim(),
       concluida: false,
-    data: novaData.value,
+      data: novaData.value,
     });
     novaTarefa.value = "";
     novaData.value = "";
@@ -50,46 +65,172 @@ onMounted(() => {
 
 <template>
   <main>
-    <h1>📝 To Do List</h1>
-    <!-- tudo o que for reativo,dentro de script, precisa do .value p/acessar o valor, mas no template, não é necessário -->
-    <div v-if="tarefas.length === 0">
-      <p>Parabéns! Você completou todas as tarefas!!!!</p>
-    </div>
-
-    <ul v-else>
-      <!-- v-for - é uma diretiva que serve para fazer loops-->
-      <li v-for="(tarefa, index) in tarefas" :key="index">
-        {{ tarefa.texto }}
-        <button @click="RemoverTarefa(index)">❌Remover</button>
+    <section class="container-todo">
+      <h1>📝 To do List</h1>
+      <!-- Adicionar ou filtrar -->
+      <section>
         <input
-          type="checkbox"
-          @change="toggleConcluida(index)"
-          :checked="tarefa.concluida"
+          type="text"
+          placeholder="Adicione uma nova tarefa"
+          v-model="novaTarefa"
         />
-        <span :class="{ concluida: tarefa.concluida }">{{ tarefa.texto }}</span>
-        <span class="data" v-if="tarefa.data"> ({{ tarefa.data }})</span>
-      </li>
-    </ul>
-    <section>
-      <input
-        type="text"
-        placeholder="Adicione uma nova tarefa"
-        v-model="novaTarefa"
-      />
-      <input
-        type="date"
-        v-model="novaData"
-      />
-      <button @click="adicionarTarefa">Adicionar</button>
-      <!-- v-model - diretiva que sincroniza um valor de uma variável ao input -->
+        <input type="date" v-model="novaData" />
+        <button @click="adicionarTarefa">Adicionar</button>
+        <!-- v-model - diretiva que sincroniza um valor de uma variável ao input -->
+      </section>
+      <!-- tudo o que for reativo,dentro de script, precisa do .value p/acessar o valor, mas no template, não é necessário -->
+      <div v-if="tarefas.length === 0">
+        <p>Parabéns! Você completou todas as tarefas!!!!</p>
+      </div>
+
+      <ul v-else-if="tarefasFiltradas.length > 0" class="scrollable-list">
+        <!-- v-for - é uma diretiva que serve para fazer loops-->
+        <li v-for="(tarefa, index) in tarefasFiltradas" :key="index">
+          <div :class="{concluida: tarefa.concluida}">
+            <input
+            type="checkbox"
+            @change="toggleConcluida(index)"
+            :checked="tarefa.concluida"
+            class="check-style"
+            />
+
+            {{ tarefa.texto }}
+            <button 
+            @click="RemoverTarefa(index)"
+            class="delete-button"
+            >❌</button>
+
+            </div>
+          <span class="data" v-if="tarefa.data"> ({{ tarefa.data }})</span>
+        </li>
+      </ul>
+      <div v-else>
+        <p>Nenhuma tarefa encontrada</p>
+      </div>
     </section>
+    <div class="elipse-doguito">
+      <img :src="doguito" alt="" />
+    </div>
+    <div class="elipse-top"></div>
   </main>
 </template>
 
 <style scoped lang="scss">
 main {
   height: 100vh;
-  width: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.elipse-doguito {
+  background-color: rgb(207, 191, 180);
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  position: absolute;
+  transform: translateY(50%);
+  right: 0;
+  left: 70%;
+
+  img {
+    width: 35rem;
+    height: 35rem;
+    position: relative;
+    bottom: 40%;
+    right: 4rem;
+  }
+}
+.elipse-top {
+  background-color: rgb(207, 191, 180);
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  position: absolute;
+  right: 73rem;
+  transform: translateY(-50%);
+}
+.container-todo {
+  height: 70%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 3rem;
+  border: solid 3px rgb(207, 191, 180);
+  position: relative;
+  padding: 1rem;
+
+  .delete-button {
+    border: none;
+    border-radius: 0.3rem;
+    background-color: rgb(207, 191, 180);
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    margin-left: 1rem; /* Espaço entre o texto e o botão */
+    transition: color 0.8s ease; /* Transição suave na cor */
+
+    &:hover {
+      background-color: #c00;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+  }
+
+  .scrollable-list {
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+    height: 100%;
+    /* padding: 1rem;   */
+    
+    &::-webkit-scrollbar {
+      height: 10px;
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 5px;
+      background-color: #DFE9EB;
+    }
+    &::-webkit-scrollbar-track:hover {
+      background-color: #B8C0C2;
+    }
+    &::-webkit-scrollbar-track:active {
+      background-color: #B8C0C2;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: rgb(207, 191, 180);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgb(145, 132, 123);
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background-color: rgb(145, 132, 123);
+    }
+  }
+  .check-style {
+    width: 1rem;
+    height: 1rem;
+  accent-color: rgb(145, 132, 123);
+  padding: 0.5rem;
+}
+
+.check-style:checked {
+  accent-color: rgb(207, 191, 180);
+}
+  li {
+    list-style: none;
+  }
 }
 
 .concluida {
@@ -103,4 +244,3 @@ main {
   margin-left: 5px;
 }
 </style>
-
