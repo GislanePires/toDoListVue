@@ -66,16 +66,17 @@ onMounted(() => {
 <template>
   <main>
     <section class="container-todo">
-      <h1>📝 To do List</h1>
+      <h1>📝 To Do List do <span>Doguito</span></h1>
       <!-- Adicionar ou filtrar -->
-      <section>
+      <section class="container-inputs">
         <input
           type="text"
           placeholder="Adicione uma nova tarefa"
           v-model="novaTarefa"
+          class="input-add-text"
         />
-        <input type="date" v-model="novaData" />
-        <button @click="adicionarTarefa">Adicionar</button>
+        <input type="date" v-model="novaData" class="input-add-data" />
+        <button @click="adicionarTarefa" class="button-add">Adicionar</button>
         <!-- v-model - diretiva que sincroniza um valor de uma variável ao input -->
       </section>
       <!-- tudo o que for reativo,dentro de script, precisa do .value p/acessar o valor, mas no template, não é necessário -->
@@ -86,21 +87,19 @@ onMounted(() => {
       <ul v-else-if="tarefasFiltradas.length > 0" class="scrollable-list">
         <!-- v-for - é uma diretiva que serve para fazer loops-->
         <li v-for="(tarefa, index) in tarefasFiltradas" :key="index">
-          <div :class="{concluida: tarefa.concluida}">
+          <div :class="{ concluida: tarefa.concluida }">
             <input
-            type="checkbox"
-            @change="toggleConcluida(index)"
-            :checked="tarefa.concluida"
-            class="check-style"
+              type="checkbox"
+              @change="toggleConcluida(index)"
+              :checked="tarefa.concluida"
+              class="check-style"
             />
 
             {{ tarefa.texto }}
-            <button 
-            @click="RemoverTarefa(index)"
-            class="delete-button"
-            >❌</button>
-
-            </div>
+            <button @click="RemoverTarefa(index)" class="delete-button">
+              ❌
+            </button>
+          </div>
           <span class="data" v-if="tarefa.data"> ({{ tarefa.data }})</span>
         </li>
       </ul>
@@ -122,6 +121,43 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .container-inputs {
+    /* background-color: green; */
+    width: 60%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    .input-add-data,
+    .input-add-text {
+      height: 1.8rem;
+      border-radius: 0.6rem;
+      border: 0.2rem solid rgb(207, 191, 180);
+    }
+    .button-add {
+      border-radius: 0.6rem;
+      border: none;
+      padding: 0.5rem;
+      background-color: rgb(207, 191, 180);
+      transition: all 0.3s ease;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(142, 131, 124);
+        box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+      }
+
+      &:active {
+        outline: none;
+        color: rgb(246, 245, 244);
+        background-color: rgb(67, 62, 58);
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Sombra mais forte e mais próxima */
+        transform: translateY(2px); /* Pequeno efeito de afundamento */
+      }
+    }
+  }
 }
 .elipse-doguito {
   background-color: rgb(207, 191, 180);
@@ -155,13 +191,19 @@ main {
   width: 50%;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   border-radius: 3rem;
   border: solid 3px rgb(207, 191, 180);
   position: relative;
   padding: 1rem;
+    h1 {
+      font-size: 3rem;
+
+      span {
+        color: rgb(142, 130, 122);
+      }
+    }
 
   .delete-button {
     border: none;
@@ -179,7 +221,6 @@ main {
     &:focus {
       outline: none;
     }
-
   }
 
   .scrollable-list {
@@ -191,21 +232,23 @@ main {
     max-height: 200px;
     overflow-y: auto;
     height: 100%;
-    /* padding: 1rem;   */
-    
+    width: 100%;
+    /* background-color: #c00; */
+    padding-left: 4rem;
+
     &::-webkit-scrollbar {
       height: 10px;
       width: 10px;
     }
     &::-webkit-scrollbar-track {
       border-radius: 5px;
-      background-color: #DFE9EB;
+      background-color: #dfe9eb;
     }
     &::-webkit-scrollbar-track:hover {
-      background-color: #B8C0C2;
+      background-color: #b8c0c2;
     }
     &::-webkit-scrollbar-track:active {
-      background-color: #B8C0C2;
+      background-color: #b8c0c2;
     }
     &::-webkit-scrollbar-thumb {
       border-radius: 5px;
@@ -221,15 +264,16 @@ main {
   .check-style {
     width: 1rem;
     height: 1rem;
-  accent-color: rgb(145, 132, 123);
-  padding: 0.5rem;
-}
+    accent-color: rgb(145, 132, 123);
+    padding: 0.5rem;
+  }
 
-.check-style:checked {
-  accent-color: rgb(207, 191, 180);
-}
+  .check-style:checked {
+    accent-color: rgb(207, 191, 180);
+  }
   li {
     list-style: none;
+    /* background-color: aqua; */
   }
 }
 
