@@ -66,7 +66,7 @@ onMounted(() => {
 <template>
   <main>
     <section class="container-todo">
-      <h1>📝 To Do List do <span>Doguito</span></h1>
+      <h1>🐾 ToDo <span>guito</span></h1>
       <!-- Adicionar ou filtrar -->
       <section class="container-inputs">
         <input
@@ -86,7 +86,7 @@ onMounted(() => {
 
       <ul v-else-if="tarefasFiltradas.length > 0" class="scrollable-list">
         <!-- v-for - é uma diretiva que serve para fazer loops-->
-        <li v-for="(tarefa, index) in tarefasFiltradas" :key="index">
+        <li v-for="(tarefa, index) in tarefasFiltradas" :key="index" class="item-tarefa">
           <div :class="{ concluida: tarefa.concluida }">
             <input
               type="checkbox"
@@ -96,11 +96,11 @@ onMounted(() => {
             />
 
             {{ tarefa.texto }}
-            <button @click="RemoverTarefa(index)" class="delete-button">
-              ❌
-            </button>
           </div>
           <span class="data" v-if="tarefa.data"> ({{ tarefa.data }})</span>
+          <button @click="RemoverTarefa(index)" class="delete-button">
+            X
+          </button>
         </li>
       </ul>
       <div v-else>
@@ -110,7 +110,7 @@ onMounted(() => {
     <div class="elipse-doguito">
       <img :src="doguito" alt="" />
     </div>
-    <div class="elipse-top"></div>
+    <!-- <div class="elipse-top"></div> -->
   </main>
 </template>
 
@@ -119,8 +119,16 @@ main {
   height: 100vh;
   width: 80%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px){
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0;
+    
+  }
 
   .container-inputs {
     /* background-color: green; */
@@ -128,6 +136,13 @@ main {
     height: auto;
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 768px){
+      flex-direction: column;
+      /* background-color: aqua; */
+      height: 90%;
+      margin: 1rem;
+    }
 
     .input-add-data,
     .input-add-text {
@@ -153,10 +168,29 @@ main {
         outline: none;
         color: rgb(246, 245, 244);
         background-color: rgb(67, 62, 58);
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Sombra mais forte e mais próxima */
-        transform: translateY(2px); /* Pequeno efeito de afundamento */
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        transform: translateY(2px);
       }
     }
+  }
+}
+
+.item-tarefa {
+  background-color: rgb(176, 162, 153);
+  width: 80%;
+  height: 30%;
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px){
+    font-size: 0.8rem;
+  }
+
+  .data {
+    color: azure;
   }
 }
 .elipse-doguito {
@@ -169,12 +203,27 @@ main {
   right: 0;
   left: 70%;
 
+  @media (max-width: 768px){
+    width: 20rem;
+    height: 20rem;
+    right: 0;
+    top: 35rem;
+    transform: translateX(-90%);
+  }
+
   img {
     width: 35rem;
     height: 35rem;
     position: relative;
     bottom: 40%;
     right: 4rem;
+
+    @media (max-width: 768px){
+      width: 10rem;
+      height: 10rem;
+      left: 3rem;
+      bottom: 3rem;
+    }
   }
 }
 .elipse-top {
@@ -185,10 +234,18 @@ main {
   position: absolute;
   right: 73rem;
   transform: translateY(-50%);
+
+  @media (max-width: 768px){
+    width: 15rem;
+    height: 15rem;
+    right: 0;
+    top: 35rem;
+    transform: translateX(-90%);
+  }
 }
 .container-todo {
   height: 70%;
-  width: 50%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -197,25 +254,56 @@ main {
   border: solid 3px rgb(207, 191, 180);
   position: relative;
   padding: 1rem;
+
+  @media (max-width: 768px){
+    border: none;
+    width: 90%;
+    padding: 0;
+    /* height: 80%; */
+    border-radius:0;
+  }
     h1 {
       font-size: 3rem;
 
+      @media (max-width: 768px){
+        font-size: 1.6rem;
+        width: 100vw;
+        height: 80%;
+        /* padding: 2rem; */
+        text-align: center;
+        background-color: rgb(199, 186, 177);
+        color: rgb(35, 32, 31);
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        border-radius: 50%;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
+
       span {
         color: rgb(142, 130, 122);
+        @media (max-width: 768px){
+          color: beige;
+        }
       }
     }
 
   .delete-button {
     border: none;
     border-radius: 0.3rem;
-    background-color: rgb(207, 191, 180);
+    background-color: transparent;
     cursor: pointer;
+    color: azure;
+    font-weight: 700;
     padding: 0.2rem 0.5rem;
-    margin-left: 1rem; /* Espaço entre o texto e o botão */
-    transition: color 0.8s ease; /* Transição suave na cor */
+    margin-left: 1rem; 
+    transition: color 0.8s ease;
 
     &:hover {
-      background-color: #c00;
+      background-color: rgb(51, 51, 51);
     }
 
     &:focus {
@@ -224,7 +312,6 @@ main {
   }
 
   .scrollable-list {
-    /* background-color: blue; */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -233,7 +320,6 @@ main {
     overflow-y: auto;
     height: 100%;
     width: 100%;
-    /* background-color: #c00; */
     padding-left: 4rem;
 
     &::-webkit-scrollbar {
@@ -279,12 +365,11 @@ main {
 
 .concluida {
   text-decoration: line-through;
-  color: gray;
+  color: rgb(67, 67, 67);
 }
 
 .data {
   color: #888;
   font-size: 0.9rem;
-  margin-left: 5px;
 }
 </style>
