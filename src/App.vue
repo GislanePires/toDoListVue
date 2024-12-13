@@ -244,14 +244,14 @@ main {
   }
 }
 .container-todo {
-  height: 70%;
+  height: 80%;
   width: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   border-radius: 3rem;
-  border: solid 3px rgb(207, 191, 180);
+  /* background-color: rgb(207, 191, 180); */
   position: relative;
   padding: 1rem;
 
@@ -259,7 +259,6 @@ main {
     border: none;
     width: 90%;
     padding: 0;
-    /* height: 80%; */
     border-radius:0;
   }
     h1 {
@@ -269,12 +268,10 @@ main {
         font-size: 1.6rem;
         width: 100vw;
         height: 80%;
-        /* padding: 2rem; */
         text-align: center;
         background-color: rgb(199, 186, 177);
         color: rgb(35, 32, 31);
         display: flex;
-        /* flex-direction: column; */
         justify-content: center;
         align-items: center;
         margin: 0;
@@ -316,7 +313,7 @@ main {
     flex-direction: column;
     justify-content: space-around;
     gap: 1rem;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
     height: 100%;
     width: 100%;
@@ -334,14 +331,14 @@ main {
       background-color: #b8c0c2;
     }
     &::-webkit-scrollbar-track:active {
-      background-color: #b8c0c2;
+      background-color: #767a7c;
     }
     &::-webkit-scrollbar-thumb {
       border-radius: 5px;
       background-color: rgb(207, 191, 180);
     }
     &::-webkit-scrollbar-thumb:hover {
-      background-color: rgb(145, 132, 123);
+      background-color: rgb(121, 111, 103);
     }
     &::-webkit-scrollbar-thumb:active {
       background-color: rgb(145, 132, 123);
