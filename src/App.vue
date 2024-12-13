@@ -134,7 +134,7 @@ main {
     width: 60%;
     height: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 0.5rem;
 
@@ -178,6 +178,7 @@ main {
 
 .item-tarefa {
   background-color: rgb(176, 162, 153);
+  max-height: 3rem;
   width: 80%;
   height: 30%;
   border-radius: 0.7rem;
