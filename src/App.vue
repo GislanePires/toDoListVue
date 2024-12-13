@@ -131,13 +131,14 @@ main {
   }
 
   .container-inputs {
-    /* background-color: green; */
     width: 60%;
     height: auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
 
-    @media (max-width: 768px){
+    @media (max-width: 1280px){
       flex-direction: column;
       /* background-color: aqua; */
       height: 90%;
@@ -312,6 +313,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     gap: 1rem;
     max-height: 300px;
     overflow-y: auto;
