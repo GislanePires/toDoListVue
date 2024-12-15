@@ -177,15 +177,20 @@ main {
 }
 
 .item-tarefa {
-  background-color: rgb(176, 162, 153);
   max-height: 3rem;
-  width: 80%;
+  width: 70%;
   height: 30%;
   border-radius: 0.7rem;
   padding: 0.5rem 0.9rem 0.5rem 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: rgb(176, 162, 153);
+
+  :hover {
+    cursor: pointer;
+
+  }
 
   @media (max-width: 768px){
     font-size: 0.8rem;
@@ -253,7 +258,6 @@ main {
   align-items: center;
   justify-content: space-around;
   border-radius: 3rem;
-  /* background-color: rgb(207, 191, 180); */
   position: relative;
   padding: 1rem;
 
@@ -359,7 +363,6 @@ main {
   }
   li {
     list-style: none;
-    /* background-color: aqua; */
   }
 }
 
